@@ -1,6 +1,6 @@
 package com.cesizen.model;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 import jakarta.persistence.*;
 
@@ -28,21 +28,15 @@ public class User {
 	private boolean statut;
 	
 	@Column(nullable = false)
-	private LocalDate adhesionDate;
-	
-	public User() {}
+	private Date adhesionDate;
 	
 	/*
-	public User(String firstname, String lastname, String email, String password,boolean statut, LocalDate adhesionDate)
-	{
-		this.setFirstname(firstname);
-		this.setLastname(lastname);
-		this.email = email;
-		this.password= password;
-		this.statut=true;
-		this.adhesionDate=LocalDate.now();
-	}
-	*/
+	@ManyToOne
+    @JoinColumn(name = "role_id", nullable = false)
+    private Role role;
+    */
+	
+	public User() {}
 	
 	public Integer getId() {return id;}
 	
@@ -61,8 +55,18 @@ public class User {
 	public boolean getStatut() {return statut;}
 	public void setStatut(boolean statut) {this.statut=statut;}
 	
-	public LocalDate getAdhesionDate() { return adhesionDate;}
-	public void setAdhesionDate(LocalDate adhesionDate) { this.adhesionDate = adhesionDate;}
+	
+	public Date getAdhesionDate() { return adhesionDate;}
+	public void setAdhesionDate(Date adhesionDate) { this.adhesionDate = adhesionDate;}
+	
+	/*
+	public Role getRole() {
+        return role;
+    }
 
+    public void setRole(Role role) {
+        this.role = role;
+    }
+    */
 	
 }
