@@ -32,14 +32,7 @@ public class UserController {
 	
 	 @PostMapping
 	    public UserDTO createUser(@RequestBody UserDTO userDTO) {
-	        User user = new User();
-	        user.setFirstname(userDTO.firstname());
-	        user.setLastname(userDTO.lastname());
-	        user.setPassword(userDTO.password());
-	        user.setEmail(userDTO.email());
-	        user.setStatut(userDTO.statut());
-	        user.setAdhesionDate(userDTO.adhesionDate());
-
+		 User user = userServices.toEntity(userDTO);
 	        User savedUser = userServices.saveUser(user);
 
 	        return userServices.toDTO(savedUser);

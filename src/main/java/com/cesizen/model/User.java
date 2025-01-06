@@ -30,15 +30,14 @@ public class User {
 	@Column(nullable = false)
 	private Date adhesionDate;
 	
-	/*
 	@ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
-    */
 	
 	public User() {}
 	
 	public Integer getId() {return id;}
+	public void setId(Integer id) {this.id=id;}
 	
 	public String getFirstname() { return firstname; }
 	public void setFirstname(String firstname) { this.firstname = firstname;}
@@ -59,7 +58,6 @@ public class User {
 	public Date getAdhesionDate() { return adhesionDate;}
 	public void setAdhesionDate(Date adhesionDate) { this.adhesionDate = adhesionDate;}
 	
-	/*
 	public Role getRole() {
         return role;
     }
@@ -67,6 +65,5 @@ public class User {
     public void setRole(Role role) {
         this.role = role;
     }
-    */
 	
 }

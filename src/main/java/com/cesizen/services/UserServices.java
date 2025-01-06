@@ -17,6 +17,8 @@ import com.cesizen.repository.UserRepository;
 public class UserServices {
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
 	private RoleRepository roleRepository;
 	
 	public List<User> getAllUsers(){
@@ -38,7 +40,26 @@ public class UserServices {
 				user.getPassword(),
 				user.getEmail(),
 				true,
-				Date.valueOf(today)
+				Date.valueOf(today),
+				user.getRole().getId()
 				);
+	}
+	
+	public User toEntity(UserDTO userDTO) {
+	    User user = new User();
+	    user.setId(userDTO.id());
+	    user.setFirstname(userDTO.firstname());
+	    user.setLastname(userDTO.lastname());
+	    user.setPassword(userDTO.password());
+	    user.setEmail(userDTO.email());
+	    user.setStatut(userDTO.statut());
+	    user.setAdhesionDate(userDTO.adhesionDate());
+
+	    // Récupérer le rôle depuis la base de données
+	    Role role = roleRepository.findById(userDTO.role_id())
+	            .orElseThrow(() -> new RuntimeException("Role with ID " + userDTO.role_id() + " not found"));
+	    user.setRole(role);
+
+	    return user;
 	}
 }
