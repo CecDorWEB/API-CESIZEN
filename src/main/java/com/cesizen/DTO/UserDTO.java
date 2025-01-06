@@ -11,8 +11,6 @@ public record UserDTO (
     String lastname,
     String password,
     String email,
-    boolean statut,
-    Date adhesionDate,
     Integer role_id
 		) {
 }

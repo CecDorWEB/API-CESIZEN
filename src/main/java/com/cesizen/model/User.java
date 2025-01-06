@@ -1,6 +1,7 @@
 package com.cesizen.model;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.sql.Date;
 
 import jakarta.persistence.*;
 
@@ -25,10 +26,10 @@ public class User {
 	private String password;
 	
 	@Column(nullable = false)
-	private boolean statut;
+	private boolean statut=true;
 	
 	@Column(nullable = false)
-	private Date adhesionDate;
+	private Date adhesionDate=Date.valueOf(LocalDate.now());
 	
 	@ManyToOne
     @JoinColumn(name = "role_id", nullable = false)

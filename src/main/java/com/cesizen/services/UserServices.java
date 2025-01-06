@@ -39,8 +39,6 @@ public class UserServices {
 				user.getLastname(),
 				user.getPassword(),
 				user.getEmail(),
-				true,
-				Date.valueOf(today),
 				user.getRole().getId()
 				);
 	}
@@ -52,8 +50,8 @@ public class UserServices {
 	    user.setLastname(userDTO.lastname());
 	    user.setPassword(userDTO.password());
 	    user.setEmail(userDTO.email());
-	    user.setStatut(userDTO.statut());
-	    user.setAdhesionDate(userDTO.adhesionDate());
+	    user.setStatut(true);
+	    user.setAdhesionDate(Date.valueOf(LocalDate.now()));
 
 	    // Récupérer le rôle depuis la base de données
 	    Role role = roleRepository.findById(userDTO.role_id())
