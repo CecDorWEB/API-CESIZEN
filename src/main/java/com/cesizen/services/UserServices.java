@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cesizen.DTO.UserDTO;
+import com.cesizen.model.Administrator;
+import com.cesizen.model.Member;
 import com.cesizen.model.Role;
 import com.cesizen.model.User;
 import com.cesizen.repository.RoleRepository;
@@ -33,8 +35,19 @@ public class UserServices {
 	LocalDate today = LocalDate.now();
 	
 	public UserDTO toDTO(User user) {
+		
+		String userType;
+		if (user instanceof Member) {
+			userType="MEMBER";
+		} else if (user instanceof Administrator){
+			userType="ADMIN";
+		} else {
+			throw new IllegalArgumentException("Unknown user type");
+		}
+		
 		return new UserDTO(
 				user.getId(),
+				userType,
 				user.getFirstname(),
 				user.getLastname(),
 				user.getPassword(),
@@ -44,7 +57,15 @@ public class UserServices {
 	}
 	
 	public User toEntity(UserDTO userDTO) {
-	    User user = new User();
+	    User user;
+	    if ("MEMBER".equalsIgnoreCase(userDTO.type())) {
+	        user = new Member();
+	    } else if ("ADMIN".equalsIgnoreCase(userDTO.type())) {
+	        user = new Administrator();
+	    } else {
+	        throw new IllegalArgumentException("Invalid user type: " + userDTO.type());
+	    }
+	    
 	    user.setId(userDTO.id());
 	    user.setFirstname(userDTO.firstname());
 	    user.setLastname(userDTO.lastname());

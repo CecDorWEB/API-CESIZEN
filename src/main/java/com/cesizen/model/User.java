@@ -8,7 +8,8 @@ import jakarta.persistence.*;
 @Entity
 @Table(name="user")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class User {
+@DiscriminatorColumn(name="TYPE", length=6)
+public abstract class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
