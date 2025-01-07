@@ -1,16 +1,13 @@
 package com.cesizen.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.cesizen.DTO.UserDTO;
 import com.cesizen.model.User;
-import com.cesizen.repository.UserRepository;
 import com.cesizen.services.UserServices;
 
 @RestController
