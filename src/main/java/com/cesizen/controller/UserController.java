@@ -1,7 +1,6 @@
 package com.cesizen.controller;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +32,10 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 	
-	@GetMapping("/login")
-	public ResponseEntity<String> userLogin(@RequestParam String email, @RequestParam String password){
+	@PostMapping("/login")
+	public ResponseEntity<String> userLogin(@RequestBody Map<String, String> logInfos){
+		String email = logInfos.get("email");
+	    String password = logInfos.get("password");
 		
 		   System.out.println("Email reçu : " + email);
 		    System.out.println("Mot de passe reçu : " + password);
