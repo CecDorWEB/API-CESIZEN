@@ -33,12 +33,9 @@ public class UserController {
     }
 	
 	@PostMapping("/login")
-	public ResponseEntity<String> userLogin(@RequestBody Map<String, String> logInfos){
+	public ResponseEntity<Object> userLogin(@RequestBody Map<String, String> logInfos){
 		String email = logInfos.get("email");
 	    String password = logInfos.get("password");
-		
-		   System.out.println("Email reçu : " + email);
-		    System.out.println("Mot de passe reçu : " + password);
 		    
 		Optional<User> optionalUser = userRepository.findByEmailAndPassword(email, password);
 		
@@ -49,7 +46,15 @@ public class UserController {
 			User user = optionalUser.get();
 			
 			if (user.getStatut() == true) {
-				return ResponseEntity.ok("Connexion réussie !");
+				
+				 Map<String, Object> userResponse = new HashMap<>();
+			        userResponse.put("id", user.getId()); // ID de l'utilisateur
+			        userResponse.put("firstname", user.getFirstname());
+			        userResponse.put("lastname", user.getLastname());
+			        userResponse.put("email", user.getEmail());     // Email de l'utilisateur
+			        userResponse.put("role", user.getRole().getId());       // Rôle de l'utilisateur
+
+			        return ResponseEntity.ok(userResponse);
 				} else {
 					return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Connexion refusée, compte suspendu !");
 					} 
