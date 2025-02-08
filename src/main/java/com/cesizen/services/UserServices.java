@@ -19,66 +19,58 @@ import com.cesizen.repository.UserRepository;
 public class UserServices {
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private RoleRepository roleRepository;
-	
-	public List<User> getAllUsers(){
+
+	public List<User> getAllUsers() {
 		return (List<User>) userRepository.findAll();
 	}
-	
-	
+
 	public User saveUser(User user) {
 		return userRepository.save(user);
 	}
-	
+
 	LocalDate today = LocalDate.now();
-	
+
 	public UserDTO toDTO(User user) {
-		
+
 		String userType;
 		if (user instanceof Member) {
-			userType="MEMBER";
-		} else if (user instanceof Administrator){
-			userType="ADMIN";
+			userType = "MEMBER";
+		} else if (user instanceof Administrator) {
+			userType = "ADMIN";
 		} else {
 			throw new IllegalArgumentException("Unknown user type");
 		}
-		
-		return new UserDTO(
-				user.getId(),
-				userType,
-				user.getFirstname(),
-				user.getLastname(),
-				user.getPassword(),
-				user.getEmail(),
-				user.getRole().getId()
-				);
+
+		return new UserDTO(user.getId(), userType, user.getFirstname(), user.getLastname(), user.getPassword(),
+				user.getEmail(), user.getRole().getId(), user.getStatut());
 	}
-	
+
 	public User toEntity(UserDTO userDTO) {
-	    User user;
-	    if ("MEMBER".equalsIgnoreCase(userDTO.type())) {
-	        user = new Member();
-	    } else if ("ADMIN".equalsIgnoreCase(userDTO.type())) {
-	        user = new Administrator();
-	    } else {
-	        throw new IllegalArgumentException("Invalid user type: " + userDTO.type());
-	    }
-	    
-	    user.setId(userDTO.id());
-	    user.setFirstname(userDTO.firstname());
-	    user.setLastname(userDTO.lastname());
-	    user.setPassword(userDTO.password());
-	    user.setEmail(userDTO.email());
-	    user.setStatut(true);
-	    user.setAdhesionDate(Date.valueOf(LocalDate.now()));
+		User user;
+		if ("MEMBER".equalsIgnoreCase(userDTO.type())) {
+			user = new Member();
+		} else if ("ADMIN".equalsIgnoreCase(userDTO.type())) {
+			user = new Administrator();
+		} else {
+			throw new IllegalArgumentException("Invalid user type: " + userDTO.type());
+		}
 
-	    // Récupérer le rôle depuis la base de données
-	    Role role = roleRepository.findById(userDTO.role_id())
-	            .orElseThrow(() -> new RuntimeException("Role with ID " + userDTO.role_id() + " not found"));
-	    user.setRole(role);
+		user.setId(userDTO.id());
+		user.setFirstname(userDTO.firstname());
+		user.setLastname(userDTO.lastname());
+		user.setPassword(userDTO.password());
+		user.setEmail(userDTO.email());
+		user.setStatut(true);
+		user.setAdhesionDate(Date.valueOf(LocalDate.now()));
 
-	    return user;
+		// Récupérer le rôle depuis la base de données
+		Role role = roleRepository.findById(userDTO.role_id())
+				.orElseThrow(() -> new RuntimeException("Role with ID " + userDTO.role_id() + " not found"));
+		user.setRole(role);
+
+		return user;
 	}
 }

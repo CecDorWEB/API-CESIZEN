@@ -60,7 +60,7 @@ public class UserController {
 			userResponse.put("email", user.getEmail()); // Email de l'utilisateur
 			userResponse.put("type", user.getRole().getName());
 			userResponse.put("role", user.getRole().getId()); // Rôle de l'utilisateur
-
+			userResponse.put("statut", user.getStatut());
 			return ResponseEntity.ok(userResponse);
 		} else {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Connexion refusée, compte suspendu !");
