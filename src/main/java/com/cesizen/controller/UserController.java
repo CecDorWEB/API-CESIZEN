@@ -38,6 +38,16 @@ public class UserController {
 				.collect(Collectors.toList());
 	}
 
+	// S'inscrire
+	@PostMapping
+	public UserDTO createUser(@RequestBody UserDTO userDTO) {
+		User user = userServices.toEntity(userDTO);
+		User savedUser = userServices.saveUser(user);
+
+		return userServices.toDTO(savedUser);
+	}
+
+	// Se connecter
 	@PostMapping("/login")
 	public ResponseEntity<Object> userLogin(@RequestBody Map<String, String> logInfos) {
 		String email = logInfos.get("email");
@@ -67,11 +77,22 @@ public class UserController {
 		}
 	}
 
-	@PostMapping
-	public UserDTO createUser(@RequestBody UserDTO userDTO) {
-		User user = userServices.toEntity(userDTO);
-		User savedUser = userServices.saveUser(user);
+	// Supprimer un compte
+	@PostMapping("/delete")
+	public ResponseEntity<String> deleteUser(@RequestBody Map<String, Integer> payload) {
+		Integer userId = payload.get("id");
 
-		return userServices.toDTO(savedUser);
+		if (userId == null) {
+			return ResponseEntity.badRequest().body("ID manquant");
+		}
+
+		boolean isDeleted = userServices.deleteUser(userId);
+
+		if (isDeleted) {
+			return ResponseEntity.ok("Utilisateur supprimé avec succès.");
+		} else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Utilisateur non trouvé.");
+		}
 	}
+
 }

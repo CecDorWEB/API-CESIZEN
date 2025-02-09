@@ -3,6 +3,7 @@ package com.cesizen.services;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,7 +46,7 @@ public class UserServices {
 		}
 
 		return new UserDTO(user.getId(), userType, user.getFirstname(), user.getLastname(), user.getPassword(),
-				user.getEmail(), user.getRole().getId(), user.getStatut());
+				user.getEmail(), user.getRole().getId(), user.getStatut(), user.getAdhesionDate());
 	}
 
 	public User toEntity(UserDTO userDTO) {
@@ -72,5 +73,17 @@ public class UserServices {
 		user.setRole(role);
 
 		return user;
+	}
+
+	public boolean deleteUser(Integer id) {
+		Optional<User> user = userRepository.findById(id);
+
+		if (user.isPresent()) {
+			userRepository.deleteById(id);
+			return true;
+		} else {
+			return false;
+		}
+
 	}
 }
