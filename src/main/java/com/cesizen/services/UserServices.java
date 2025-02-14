@@ -86,4 +86,17 @@ public class UserServices {
 		}
 
 	}
+
+	public boolean autorizedUser(Integer userId) {
+		Optional<User> user = userRepository.findById(userId);
+
+		if (user.isPresent()) {
+			User myUser = user.get();
+			myUser.setStatut(!myUser.getStatut());
+			userRepository.save(myUser);
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

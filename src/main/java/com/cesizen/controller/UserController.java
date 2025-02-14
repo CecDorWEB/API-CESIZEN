@@ -95,4 +95,26 @@ public class UserController {
 		}
 	}
 
-}
+	// Modifier le statut (autorisé/suspendu) d'un utilisateur
+	@PostMapping("/autorization")
+	public ResponseEntity<String> autorizedUser(@RequestBody Map<String, Integer> payload) {
+		Integer userId = payload.get("id");
+
+		if (userId == null) {
+			return ResponseEntity.badRequest().body("ID manquant");
+		}
+
+		try {
+			boolean statutModifie = userServices.autorizedUser(userId);
+			if (statutModifie) {
+				return ResponseEntity.ok("Autorisation de l'utilisateur modifiée avec succès.");
+			} else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Utilisateur non trouvé.");
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Erreur lors de la modification du statut.");
+		}
+	}
+
+};
