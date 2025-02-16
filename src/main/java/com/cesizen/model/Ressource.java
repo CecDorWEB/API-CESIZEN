@@ -8,19 +8,18 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "ressource")
-//@Inheritance(strategy = InheritanceType.JOINED : moi se ne sera pas une single table (sinon trop de répétition de champs)
-//@DiscriminatorColumn(name = "TYPE", length = 10)
-public class Ressource {
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS) // Je vais créer 2 tables: article et test
+public abstract class Ressource {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
 	@Column(length = 255, nullable = false)

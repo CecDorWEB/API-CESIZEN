@@ -1,6 +1,5 @@
 package com.cesizen.services;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -9,8 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.cesizen.DTO.RessourceDTO;
 import com.cesizen.model.Ressource;
-import com.cesizen.model.TypeRessource;
-import com.cesizen.model.User;
 import com.cesizen.repository.RessourceRepository;
 import com.cesizen.repository.TypeRessourceRepository;
 import com.cesizen.repository.UserRepository;
@@ -52,32 +49,32 @@ public class RessourceServices {
 
 	}
 
-	// Transformer le modèle DTO (incomplet) en Entité Ressource correspondant aux
-	// champs de la BDD
-	public Ressource toEntity(RessourceDTO ressourceDTO) {
-
-		// ajouter les if pour les classes abstraites
-		Ressource ressource = new Ressource();
-		ressource.setId(ressourceDTO.id());
-		ressource.setTitle(ressourceDTO.title());
-		ressource.setHeaderImage(ressourceDTO.headerImage());
-		ressource.setHeaderIntroduction(ressourceDTO.headerIntroduction());
-		ressource.setPublicationDate(Date.valueOf(LocalDate.now()));
-		ressource.setUpdateDate(null);
-		ressource.setStatut(true);
-
-		// Récupérer le type de la ressource
-		TypeRessource typeRessource = typeRessourceRepository.findById(ressourceDTO.type_id())
-				.orElseThrow(() -> new RuntimeException("Type with ID " + ressourceDTO.type_id() + "not found"));
-		ressource.setTypeRessource(typeRessource);
-
-		// Récupérer l'id du user à l'origine de la création de la ressource
-		User user = userRepository.findById(ressourceDTO.user_id())
-				.orElseThrow(() -> new RuntimeException("Type with ID " + ressourceDTO.user_id() + "not found"));
-		ressource.setUser(user);
-
-		return ressource;
-
-	}
+	/*
+	 * // Transformer le modèle DTO (incomplet) en Entité Ressource correspondant
+	 * aux // champs de la BDD public Ressource toEntity(RessourceDTO ressourceDTO)
+	 * {
+	 * 
+	 * // ajouter les if pour les classes abstraites Ressource ressource = new
+	 * Ressource(); ressource.setId(ressourceDTO.id());
+	 * ressource.setTitle(ressourceDTO.title());
+	 * ressource.setHeaderImage(ressourceDTO.headerImage());
+	 * ressource.setHeaderIntroduction(ressourceDTO.headerIntroduction());
+	 * ressource.setPublicationDate(Date.valueOf(LocalDate.now()));
+	 * ressource.setUpdateDate(null); ressource.setStatut(true);
+	 * 
+	 * // Récupérer le type de la ressource TypeRessource typeRessource =
+	 * typeRessourceRepository.findById(ressourceDTO.type_id()) .orElseThrow(() ->
+	 * new RuntimeException("Type with ID " + ressourceDTO.type_id() +
+	 * "not found")); ressource.setTypeRessource(typeRessource);
+	 * 
+	 * // Récupérer l'id du user à l'origine de la création de la ressource User
+	 * user = userRepository.findById(ressourceDTO.user_id()) .orElseThrow(() -> new
+	 * RuntimeException("Type with ID " + ressourceDTO.user_id() + "not found"));
+	 * ressource.setUser(user);
+	 * 
+	 * return ressource;
+	 * 
+	 * }
+	 */
 
 }
