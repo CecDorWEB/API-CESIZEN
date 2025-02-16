@@ -45,8 +45,8 @@ public class UserServices {
 			throw new IllegalArgumentException("Unknown user type");
 		}
 
-		return new UserDTO(user.getId(), userType, user.getFirstname(), user.getLastname(), user.getPassword(),
-				user.getEmail(), user.getRole().getId(), user.getStatut(), user.getAdhesionDate());
+		return new UserDTO(user.getId(), userType, user.getFirstname(), user.getLastname(), null, user.getEmail(),
+				user.getRole().getId(), user.getStatut(), user.getAdhesionDate());
 	}
 
 	public User toEntity(UserDTO userDTO) {
