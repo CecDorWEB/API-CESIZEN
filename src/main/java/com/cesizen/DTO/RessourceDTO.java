@@ -3,5 +3,5 @@ package com.cesizen.DTO;
 import java.sql.Date;
 
 public record RessourceDTO(Long id, String title, String headerImage, String headerIntroduction, Date publicationDate,
-		boolean statut) {
+		Date updateDate, boolean statut, Long type_id, Integer user_id) {
 }

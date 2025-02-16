@@ -26,11 +26,11 @@ public class Ressource {
 	@Column(length = 255, nullable = false)
 	private String title;
 
-	@Column(length = 255, nullable = false)
+	@Column(length = 255, nullable = true)
 	private String headerImage;
 
 	@Lob
-	@Column(columnDefinition = "LONGBLOB", nullable = false)
+	@Column(length = 555, nullable = false)
 	private String headerIntroduction;
 
 	@Column(nullable = false)
