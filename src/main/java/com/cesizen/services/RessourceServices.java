@@ -28,8 +28,24 @@ public class RessourceServices {
 	@Autowired
 	private UserRepository userRepository;
 
+	// Récupérer toutes les ressources
 	public List<Ressource> getAllRessources() {
 		return (List<Ressource>) ressourceRepository.findAll();
+	}
+
+	// Récupérer tous les articles
+	public List<Ressource> getAllArticles() {
+		return (List<Ressource>) ressourceRepository.findAllArticles();
+	}
+
+	// Récupérer l'article avec l'id de mon choix
+	public List<Ressource> getArticleById(Long articleId) {
+		return (List<Ressource>) ressourceRepository.findArticleByArticleId(articleId);
+	}
+
+	// Récupérer tous les tests
+	public List<Ressource> getAllTests() {
+		return (List<Ressource>) ressourceRepository.findAllTests();
 	}
 
 	public Ressource saveRessource(Ressource ressource) {
