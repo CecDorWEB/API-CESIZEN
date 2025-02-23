@@ -54,7 +54,6 @@ public class RessourceController {
 	}
 
 	// Créer une nouvelle ressource
-
 	@PostMapping
 	public RessourceDTO createRessource(@RequestBody RessourceDTO ressourceDTO) {
 		Ressource ressource = ressourceServices.toEntity(ressourceDTO);

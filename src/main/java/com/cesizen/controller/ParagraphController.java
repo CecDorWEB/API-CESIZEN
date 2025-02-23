@@ -1,6 +1,7 @@
 package com.cesizen.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cesizen.DTO.ParagraphDTO;
 import com.cesizen.model.Paragraph;
 import com.cesizen.services.ParagraphServices;
 
@@ -24,9 +26,9 @@ public class ParagraphController {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<Paragraph>> getparagraphsbyArticleId(@PathVariable Long articleId) {
-		List<Paragraph> paragraphs = paragraphService.getParagraphsByArticleId(articleId);
-		return ResponseEntity.ok(paragraphs);
+	public List<ParagraphDTO> getparagraphsbyArticleId(@PathVariable Long articleId) {
+		return paragraphService.getParagraphsByArticleId(articleId).stream().map(paragraphService::toDTO)
+				.collect(Collectors.toList());
 	}
 
 	@PostMapping

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cesizen.DTO.ParagraphDTO;
 import com.cesizen.model.Article;
 import com.cesizen.model.Paragraph;
 import com.cesizen.model.Ressource;
@@ -23,6 +24,12 @@ public class ParagraphServices {
 		return paragraphRepository.findParagraphByArticleId(articleId);
 	}
 
+	public ParagraphDTO toDTO(Paragraph paragraph) {
+		return new ParagraphDTO(paragraph.getId(), paragraph.getparagraphOrder(), paragraph.getTitle(),
+				paragraph.getBody(), paragraph.getVisualSupport(), paragraph.getArticle().getId());
+	}
+
+	/* Création Paragraphe */
 	public Paragraph createParagraph(Long articleId, Paragraph paragraph) {
 
 		Ressource ressource = ressourceRepository.findArticleByArticleId(articleId);
