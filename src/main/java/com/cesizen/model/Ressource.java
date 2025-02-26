@@ -100,7 +100,7 @@ public abstract class Ressource {
 		this.updateDate = updateDate;
 	}
 
-	public boolean isStatut() {
+	public boolean getStatut() {
 		return statut;
 	}
 

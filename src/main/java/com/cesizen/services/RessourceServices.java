@@ -68,7 +68,7 @@ public class RessourceServices {
 
 		return new RessourceDTO(ressource.getId(), ressource.getTitle(), ressource.getHeaderImage(),
 				ressource.getHeaderIntroduction(), ressource.getPublicationDate(), ressource.getUpdateDate(),
-				ressource.isStatut(), ressourceType, ressource.getUser().getId());
+				ressource.getStatut(), ressourceType, ressource.getUser().getId());
 
 	}
 
@@ -116,6 +116,19 @@ public class RessourceServices {
 			return false;
 		}
 
+	}
+
+	public boolean autorizedRessource(Long ressourceId) {
+		Optional<Ressource> ressource = ressourceRepository.findById(ressourceId);
+
+		if (ressource.isPresent()) {
+			Ressource myRessource = ressource.get();
+			myRessource.setStatut(!myRessource.getStatut());
+			ressourceRepository.save(myRessource);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

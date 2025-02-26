@@ -83,4 +83,26 @@ public class RessourceController {
 		}
 	}
 
+	// Modifier le statut (autorisé/suspendu) d'une ressource
+	@PostMapping("/autorization")
+	public ResponseEntity<String> autorizedRessource(@RequestBody Map<String, Long> payload) {
+		Long ressourceId = payload.get("id");
+
+		if (ressourceId == null) {
+			return ResponseEntity.badRequest().body("ID manquant");
+		}
+
+		try {
+			boolean statutModifie = ressourceServices.autorizedRessource(ressourceId);
+			if (statutModifie) {
+				return ResponseEntity.ok("Autorisation de la ressource modifiée avec succès.");
+			} else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Ressource non trouvée.");
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Erreur lors de la modification du statut.");
+		}
+	}
+
 }
