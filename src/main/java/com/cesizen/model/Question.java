@@ -2,6 +2,7 @@ package com.cesizen.model;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,7 +29,7 @@ public class Question {
 	@ManyToOne
 	private Test test;
 
-	@OneToMany(mappedBy = "question")
+	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Response> listOfResponses;
 
 	public Long getId() {
@@ -61,6 +62,14 @@ public class Question {
 
 	public void setTest(Test test) {
 		this.test = test;
+	}
+
+	public List<Response> getListOfResponses() {
+		return listOfResponses;
+	}
+
+	public void setListOfResponses(List<Response> listOfResponses) {
+		this.listOfResponses = listOfResponses;
 	}
 
 	public Question() {

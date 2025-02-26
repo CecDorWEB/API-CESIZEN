@@ -39,7 +39,7 @@ public abstract class Ressource {
 	private Date updateDate = null;
 
 	@Column(nullable = false)
-	private boolean statut = true;
+	private boolean statut = false;
 
 	@ManyToOne
 	@JoinColumn(name = "type_id", nullable = false)

@@ -84,7 +84,6 @@ public class UserServices {
 		} else {
 			return false;
 		}
-
 	}
 
 	public boolean autorizedUser(Integer userId) {

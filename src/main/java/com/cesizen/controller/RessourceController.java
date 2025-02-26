@@ -1,9 +1,12 @@
 package com.cesizen.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,6 +63,24 @@ public class RessourceController {
 		Ressource savedRessource = ressourceServices.saveRessource(ressource);
 
 		return ressourceServices.toDTO(savedRessource);
+	}
+
+	// Supprimer une ressource
+	@PostMapping("/delete")
+	public ResponseEntity<String> deleteRessource(@RequestBody Map<String, Long> payload) {
+		Long ressourceId = payload.get("id");
+
+		if (ressourceId == null) {
+			return ResponseEntity.badRequest().body("ID manquant");
+		}
+
+		boolean isDeleted = ressourceServices.deleteRessource(ressourceId);
+
+		if (isDeleted) {
+			return ResponseEntity.ok("Ressource supprimée avec succès.");
+		} else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Ressource non trouvée.");
+		}
 	}
 
 }

@@ -3,6 +3,7 @@ package com.cesizen.services;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -71,13 +72,8 @@ public class RessourceServices {
 
 	}
 
-	// Transformer le modèle DTO (incomplet) en Entité Ressource correspondant aux
-	// //
-	// champs de la BDD
-	public Ressource toEntity(RessourceDTO ressourceDTO)
-
-	{
-		// ajouter les if pour les classes abstraites
+	// Transformer le modèle DTOen Entité Ressource correspondant à la bdd
+	public Ressource toEntity(RessourceDTO ressourceDTO) {
 		Ressource ressource;
 
 		if (ressourceDTO.type_id().equals(1L)) {
@@ -94,7 +90,7 @@ public class RessourceServices {
 		ressource.setHeaderIntroduction(ressourceDTO.headerIntroduction());
 		ressource.setPublicationDate(Date.valueOf(LocalDate.now()));
 		ressource.setUpdateDate(null);
-		ressource.setStatut(true);
+		ressource.setStatut(false);
 
 		// Récupérer le type de la ressource
 		TypeRessource typeRessource = typeRessourceRepository.findById(ressourceDTO.type_id())
@@ -107,6 +103,18 @@ public class RessourceServices {
 		ressource.setUser(user);
 
 		return ressource;
+
+	}
+
+	public boolean deleteRessource(Long id) {
+		Optional<Ressource> ressource = ressourceRepository.findById(id);
+
+		if (ressource.isPresent()) {
+			ressourceRepository.deleteById(id);
+			return true;
+		} else {
+			return false;
+		}
 
 	}
 
