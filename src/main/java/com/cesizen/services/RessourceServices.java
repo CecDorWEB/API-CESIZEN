@@ -2,6 +2,7 @@ package com.cesizen.services;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +33,18 @@ public class RessourceServices {
 	// Récupérer toutes les ressources
 	public List<Ressource> getAllRessources() {
 		return (List<Ressource>) ressourceRepository.findAll();
+	}
+
+	// Récupérer la ressource avec l'id de son choix
+	public List<Ressource> getRessourceById(Long ressourceId) {
+		// On renvoi un tableau pour faciliter l'utilisation dans ANGULAR
+
+		Optional<Ressource> ressource = ressourceRepository.findById(ressourceId);
+		List<Ressource> ressourceList = new ArrayList<>();
+		if (ressource.isPresent()) {
+			ressourceList.add(ressource.get());
+		}
+		return ressourceList;
 	}
 
 	// Récupérer tous les articles

@@ -37,6 +37,14 @@ public class RessourceController {
 		return ressourceServices.getAllRessources().stream().map(ressourceServices::toDTO).collect(Collectors.toList());
 	}
 
+	// Récupérer une ressource en fonction de son id
+	@GetMapping("/{ressourceId}")
+	public List<RessourceDTO> getRessourcebyId(@PathVariable("ressourceId") Long ressourceId) {
+		return ressourceServices.getRessourceById(ressourceId).stream().map(ressourceServices::toDTO)
+				.collect(Collectors.toList());
+
+	}
+
 	// Récupérer uniquement les Articles
 	@GetMapping("/article")
 	public List<RessourceDTO> getAllArticles() {
