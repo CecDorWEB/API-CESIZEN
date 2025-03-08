@@ -2,8 +2,8 @@ package com.cesizen.services;
 
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,25 +36,13 @@ public class RessourceServices {
 	}
 
 	// Récupérer la ressource avec l'id de son choix
-	public List<Ressource> getRessourceById(Long ressourceId) {
-		// On renvoi un tableau pour faciliter l'utilisation dans ANGULAR
-
-		Optional<Ressource> ressource = ressourceRepository.findById(ressourceId);
-		List<Ressource> ressourceList = new ArrayList<>();
-		if (ressource.isPresent()) {
-			ressourceList.add(ressource.get());
-		}
-		return ressourceList;
+	public Ressource getRessourceById(Long ressourceId) {
+		return ressourceRepository.findById(ressourceId).orElse(null);
 	}
 
 	// Récupérer tous les articles
 	public List<Ressource> getAllArticles() {
 		return (List<Ressource>) ressourceRepository.findAllArticles();
-	}
-
-	// Récupérer l'article avec l'id de mon choix
-	public List<Ressource> getArticleById(Long articleId) {
-		return (List<Ressource>) ressourceRepository.findArticleByArticleId(articleId);
 	}
 
 	// Récupérer tous les tests
@@ -129,6 +117,26 @@ public class RessourceServices {
 			return false;
 		}
 
+	}
+
+	public Ressource updateRessource(Ressource ressource, String type, Long ressourceId) {
+		Ressource resDB = ressourceRepository.findById(ressourceId).get();
+
+		if (Objects.nonNull(ressource.getTitle()) && !"".equalsIgnoreCase(ressource.getTitle())) {
+			resDB.setTitle(ressource.getTitle());
+			resDB.setUpdateDate(Date.valueOf(LocalDate.now()));
+		}
+
+		if (Objects.nonNull(ressource.getHeaderIntroduction())
+				&& !"".equalsIgnoreCase(ressource.getHeaderIntroduction())) {
+			resDB.setHeaderIntroduction(ressource.getHeaderIntroduction());
+		}
+
+		if (Objects.nonNull(ressource.getHeaderImage()) && !"".equalsIgnoreCase(ressource.getHeaderImage())) {
+			resDB.setHeaderImage(ressource.getHeaderImage());
+		}
+
+		return ressourceRepository.save(resDB);
 	}
 
 	public boolean autorizedRessource(Long ressourceId) {

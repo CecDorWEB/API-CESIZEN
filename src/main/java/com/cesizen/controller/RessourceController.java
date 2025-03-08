@@ -11,14 +11,18 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cesizen.DTO.RessourceDTO;
+import com.cesizen.model.Article;
 import com.cesizen.model.Ressource;
+import com.cesizen.model.Test;
 import com.cesizen.repository.RessourceRepository;
 import com.cesizen.services.RessourceServices;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @CrossOrigin
@@ -31,6 +35,9 @@ public class RessourceController {
 	@Autowired
 	private RessourceRepository ressourceRepository;
 
+	@Autowired
+	private ObjectMapper objectMapper;
+
 	// Récupérer toutes les ressources
 	@GetMapping
 	public List<RessourceDTO> getAllRessources() {
@@ -39,23 +46,21 @@ public class RessourceController {
 
 	// Récupérer une ressource en fonction de son id
 	@GetMapping("/{ressourceId}")
-	public List<RessourceDTO> getRessourcebyId(@PathVariable("ressourceId") Long ressourceId) {
-		return ressourceServices.getRessourceById(ressourceId).stream().map(ressourceServices::toDTO)
-				.collect(Collectors.toList());
+	public ResponseEntity<RessourceDTO> getRessourcebyId(@PathVariable Long ressourceId) {
+		Ressource ressource = ressourceServices.getRessourceById(ressourceId);
 
+		if (ressource == null) {
+			return ResponseEntity.notFound().build();
+		}
+
+		RessourceDTO ressourceDTO = ressourceServices.toDTO(ressource);
+		return ResponseEntity.ok(ressourceDTO);
 	}
 
 	// Récupérer uniquement les Articles
 	@GetMapping("/article")
 	public List<RessourceDTO> getAllArticles() {
 		return ressourceServices.getAllArticles().stream().map(ressourceServices::toDTO).collect(Collectors.toList());
-	}
-
-	// Récupérer l'article avec l'id de mon choix
-	@GetMapping("/article/{articleId}")
-	public List<RessourceDTO> getArticleById(@PathVariable Long articleId) {
-		return ressourceServices.getArticleById(articleId).stream().map(ressourceServices::toDTO)
-				.collect(Collectors.toList());
 	}
 
 	// Récupérer uniquement les tests
@@ -89,6 +94,28 @@ public class RessourceController {
 		} else {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Ressource non trouvée.");
 		}
+	}
+
+	// Modifier une ressource
+	@PutMapping("/{type}/{ressourceId}/modify")
+	public ResponseEntity<RessourceDTO> updateRessource(@RequestBody Map<String, Object> ressourceData,
+			@PathVariable("type") String type, @PathVariable("ressourceId") Long ressourceId) {
+
+		Ressource updatedRessource;
+
+		if ("article".equalsIgnoreCase(type)) {
+			Article article = objectMapper.convertValue(ressourceData, Article.class);
+			updatedRessource = ressourceServices.updateRessource(article, type, ressourceId);
+		} else if ("test".equalsIgnoreCase(type)) {
+			Test test = objectMapper.convertValue(ressourceData, Test.class);
+			updatedRessource = ressourceServices.updateRessource(test, type, ressourceId);
+		} else {
+			return ResponseEntity.badRequest().build();
+		}
+
+		// Convertir l'objet en DTO avant de le retourner
+		RessourceDTO ressourceDTO = ressourceServices.toDTO(updatedRessource);
+		return ResponseEntity.ok(ressourceDTO);
 	}
 
 	// Modifier le statut (autorisé/suspendu) d'une ressource
