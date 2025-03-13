@@ -26,7 +26,7 @@ public class ParagraphServices {
 
 	public ParagraphDTO toDTO(Paragraph paragraph) {
 		return new ParagraphDTO(paragraph.getId(), paragraph.getparagraphOrder(), paragraph.getTitle(),
-				paragraph.getBody(), paragraph.getVisualSupport(), paragraph.getArticle().getId());
+				paragraph.getBody(), paragraph.getVisualSupport());
 	}
 
 	/* Création Paragraphe */

@@ -32,11 +32,13 @@ public class ParagraphController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Paragraph> createParagraph(@PathVariable long articleId, @RequestBody Paragraph paragraph) {
+	public ResponseEntity<ParagraphDTO> createParagraph(@PathVariable long articleId,
+			@RequestBody Paragraph paragraph) {
 
 		Paragraph createdParagraph = paragraphService.createParagraph(articleId, paragraph);
 
-		return ResponseEntity.ok(createdParagraph);
+		ParagraphDTO dto = paragraphService.toDTO(createdParagraph);
+		return ResponseEntity.ok(dto);
 	}
 
 }

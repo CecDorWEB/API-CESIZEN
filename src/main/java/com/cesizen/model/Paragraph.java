@@ -19,10 +19,10 @@ public class Paragraph {
 	@Column(nullable = false)
 	private Integer paragraphOrder;
 
-	@Column(length = 255, nullable = false)
+	@Column(length = 255, nullable = true)
 	private String title;
 
-	@Column(length = 555, nullable = false)
+	@Column(length = 2000, nullable = false)
 	private String body;
 
 	@Column(length = 555, nullable = true)
