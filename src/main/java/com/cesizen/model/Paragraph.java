@@ -28,6 +28,9 @@ public class Paragraph {
 	@Column(length = 555, nullable = true)
 	private String visualSupport;
 
+	@Column(length = 255, nullable = true)
+	private String altVisualSupport;
+
 	@ManyToOne
 	private Article article;
 
@@ -53,11 +56,11 @@ public class Paragraph {
 		this.id = id;
 	}
 
-	public Integer getparagraphOrder() {
+	public Integer getParagraphOrder() {
 		return paragraphOrder;
 	}
 
-	public void setparagraphOrder(Integer paragraphOrder) {
+	public void setParagraphOrder(Integer paragraphOrder) {
 		this.paragraphOrder = paragraphOrder;
 	}
 
@@ -83,6 +86,14 @@ public class Paragraph {
 
 	public void setVisualSupport(String visualSupport) {
 		this.visualSupport = visualSupport;
+	}
+
+	public String getAltVisualSupport() {
+		return altVisualSupport;
+	}
+
+	public void setAltVisualSupport(String altVisualSupport) {
+		this.altVisualSupport = altVisualSupport;
 	}
 
 	public Article getArticle() {
