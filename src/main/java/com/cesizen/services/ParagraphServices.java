@@ -42,4 +42,12 @@ public class ParagraphServices {
 		paragraph.setArticle(article);
 		return paragraphRepository.save(paragraph);
 	}
+
+	public boolean deleteParagraph(Long paragraphId) {
+		if (paragraphRepository.existsById(paragraphId)) {
+			paragraphRepository.deleteById(paragraphId);
+			return true;
+		}
+		return false;
+	}
 }

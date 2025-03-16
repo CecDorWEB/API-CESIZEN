@@ -3,7 +3,9 @@ package com.cesizen.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +18,7 @@ import com.cesizen.model.Paragraph;
 import com.cesizen.services.ParagraphServices;
 
 @RestController
-@RequestMapping("/ressource/article/{articleId}/paragraph")
+@RequestMapping("/ressource/article")
 public class ParagraphController {
 
 	private final ParagraphServices paragraphService;
@@ -25,13 +27,13 @@ public class ParagraphController {
 		this.paragraphService = paragraphService;
 	}
 
-	@GetMapping
+	@GetMapping("/{articleId}/paragraph")
 	public List<ParagraphDTO> getparagraphsbyArticleId(@PathVariable Long articleId) {
 		return paragraphService.getParagraphsByArticleId(articleId).stream().map(paragraphService::toDTO)
 				.collect(Collectors.toList());
 	}
 
-	@PostMapping
+	@PostMapping("/{articleId}/paragraph")
 	public ResponseEntity<ParagraphDTO> createParagraph(@PathVariable long articleId,
 			@RequestBody Paragraph paragraph) {
 
@@ -39,6 +41,16 @@ public class ParagraphController {
 
 		ParagraphDTO dto = paragraphService.toDTO(createdParagraph);
 		return ResponseEntity.ok(dto);
+	}
+
+	@DeleteMapping("/paragraph/{paragraphId}")
+	public ResponseEntity<String> deleteParagraph(@PathVariable Long paragraphId) {
+		boolean deleted = paragraphService.deleteParagraph(paragraphId);
+		if (deleted) {
+			return ResponseEntity.ok("Paragraphe supprimé avec succès !");
+		} else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Paragraphe introuvable !");
+		}
 	}
 
 }
