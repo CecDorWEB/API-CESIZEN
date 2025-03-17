@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,6 +44,19 @@ public class ParagraphController {
 		return ResponseEntity.ok(dto);
 	}
 
+	// Modifier un paragraphe
+	@PutMapping("/paragraph/{paragraphId}/modify")
+	public ResponseEntity<ParagraphDTO> updateParagraph(@RequestBody Paragraph paragraph,
+			@PathVariable("paragraphId") Long paragraphId) {
+
+		Paragraph updatedParagraph = paragraphService.updateParagraph(paragraph, paragraphId);
+
+		// Convertir l'objet en DTO avant de le retourner
+		ParagraphDTO updatedDTO = paragraphService.toDTO(updatedParagraph);
+		return ResponseEntity.ok(updatedDTO);
+	}
+
+	// Supprimer un paragraphe
 	@DeleteMapping("/paragraph/{paragraphId}")
 	public ResponseEntity<String> deleteParagraph(@PathVariable Long paragraphId) {
 		boolean deleted = paragraphService.deleteParagraph(paragraphId);
