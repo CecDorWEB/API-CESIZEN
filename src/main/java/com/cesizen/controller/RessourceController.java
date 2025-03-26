@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cesizen.DTO.RessourceDTO;
@@ -61,6 +62,19 @@ public class RessourceController {
 	@GetMapping("/article")
 	public List<RessourceDTO> getAllArticles() {
 		return ressourceServices.getAllArticles().stream().map(ressourceServices::toDTO).collect(Collectors.toList());
+	}
+
+	// Récupérer uniquement les ressources autorisés par type
+	@GetMapping("/all")
+	public ResponseEntity<List<RessourceDTO>> getAllRessourcesAllowedByType(@RequestParam Long ressourceTypeId) {
+		List<RessourceDTO> ressources = ressourceServices.getAllRessourcesAllowedByType(ressourceTypeId).stream()
+				.map(ressourceServices::toDTO).collect(Collectors.toList());
+
+		if (ressources.isEmpty()) {
+			return ResponseEntity.noContent().build(); // 204 No Content
+		}
+
+		return ResponseEntity.ok(ressources);
 	}
 
 	// Récupérer uniquement les tests

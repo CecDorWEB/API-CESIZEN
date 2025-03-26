@@ -16,6 +16,10 @@ public interface RessourceRepository extends JpaRepository<Ressource, Long> {
 	@Query("SELECT r FROM Ressource r WHERE TYPE(r) = Article")
 	List<Ressource> findAllArticles();
 
+	// Récupérer toutes les ressources autorisées par type
+	@Query("SELECT r FROM Ressource r WHERE r.statut = true AND r.typeRessource.id = :ressourceTypeId")
+	List<Ressource> findAllRessourcesAllowedByType(@Param("ressourceTypeId") Long ressourceTypeId);
+
 	// Récupérer l'article avec l'id de mon choix
 	@Query("Select r FROM Ressource r WHERE TYPE(r) = Article AND r.id = :articleId")
 	Ressource findArticleByArticleId(@Param("articleId") Long articleId);

@@ -40,6 +40,11 @@ public class RessourceServices {
 		return ressourceRepository.findById(ressourceId).orElse(null);
 	}
 
+	// Récupérer toutes ressources autorisées par type
+	public List<Ressource> getAllRessourcesAllowedByType(Long ressourceTypeId) {
+		return ressourceRepository.findAllRessourcesAllowedByType(ressourceTypeId);
+	}
+
 	// Récupérer tous les articles
 	public List<Ressource> getAllArticles() {
 		return (List<Ressource>) ressourceRepository.findAllArticles();
