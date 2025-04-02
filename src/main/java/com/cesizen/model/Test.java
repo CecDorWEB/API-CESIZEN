@@ -12,6 +12,9 @@ public class Test extends Ressource {
 	@OneToMany(mappedBy = "test", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Question> listOfQuestions;
 
+	@OneToMany(mappedBy = "test")
+	private List<UserTestResult> UserTestResult;
+
 	public Test() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -23,6 +26,14 @@ public class Test extends Ressource {
 
 	public void setListOfQuestions(List<Question> listOfQuestions) {
 		this.listOfQuestions = listOfQuestions;
+	}
+
+	public List<UserTestResult> getUserTestResult() {
+		return UserTestResult;
+	}
+
+	public void setUserTestResult(List<UserTestResult> userTestResult) {
+		UserTestResult = userTestResult;
 	}
 
 }

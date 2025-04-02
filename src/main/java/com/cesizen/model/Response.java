@@ -21,6 +21,9 @@ public class Response {
 	@Column(nullable = false)
 	private Integer point;
 
+	@Column(nullable = false)
+	private boolean multiplied = false;
+
 	@ManyToOne
 	private Question question;
 
@@ -29,10 +32,11 @@ public class Response {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Response(Long id, String title, Integer point, Question question) {
+	public Response(String title, Integer point, boolean multiplied, Question question) {
 		super();
 		this.title = title;
 		this.point = point;
+		this.multiplied = multiplied;
 		this.question = question;
 	}
 
@@ -60,6 +64,14 @@ public class Response {
 		this.point = point;
 	}
 
+	public boolean isMultiplied() {
+		return multiplied;
+	}
+
+	public void setMultiplied(boolean multiplied) {
+		this.multiplied = multiplied;
+	}
+
 	public Question getQuestion() {
 		return question;
 	}
@@ -67,4 +79,5 @@ public class Response {
 	public void setQuestion(Question question) {
 		this.question = question;
 	}
+
 }

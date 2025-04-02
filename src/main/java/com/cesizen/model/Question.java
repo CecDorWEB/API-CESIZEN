@@ -26,11 +26,29 @@ public class Question {
 	@Column(length = 555, nullable = false)
 	private String question;
 
+	@Column(nullable = true)
+	private Integer number_expected_answers;
+
 	@ManyToOne
 	private Test test;
 
 	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Response> listOfResponses;
+
+	public Question() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Question(String rule, String question, Integer number_expected_answers, Test test,
+			List<Response> listOfResponses) {
+		super();
+		this.rule = rule;
+		this.question = question;
+		this.number_expected_answers = number_expected_answers;
+		this.test = test;
+		this.listOfResponses = listOfResponses;
+	}
 
 	public Long getId() {
 		return id;
@@ -56,6 +74,14 @@ public class Question {
 		this.question = question;
 	}
 
+	public Integer getNumber_expected_answers() {
+		return number_expected_answers;
+	}
+
+	public void setNumber_expected_answers(Integer number_expected_answers) {
+		this.number_expected_answers = number_expected_answers;
+	}
+
 	public Test getTest() {
 		return test;
 	}
@@ -70,18 +96,6 @@ public class Question {
 
 	public void setListOfResponses(List<Response> listOfResponses) {
 		this.listOfResponses = listOfResponses;
-	}
-
-	public Question() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public Question(String rule, String question, Test test) {
-		super();
-		this.rule = rule;
-		this.question = question;
-		this.test = test;
 	}
 
 }

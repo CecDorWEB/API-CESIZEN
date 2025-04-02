@@ -2,6 +2,7 @@ package com.cesizen.model;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
@@ -13,6 +14,7 @@ import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -45,6 +47,9 @@ public abstract class User {
 	@ManyToOne
 	@JoinColumn(name = "role_id", nullable = false)
 	private Role role;
+
+	@OneToMany(mappedBy = "user")
+	private List<UserTestResult> UserTestResult;
 
 	public User() {
 	}
@@ -111,6 +116,14 @@ public abstract class User {
 
 	public void setRole(Role role) {
 		this.role = role;
+	}
+
+	public List<UserTestResult> getUserTestResult() {
+		return UserTestResult;
+	}
+
+	public void setUserTestResult(List<UserTestResult> userTestResult) {
+		UserTestResult = userTestResult;
 	}
 
 }
