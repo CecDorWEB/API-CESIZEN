@@ -24,6 +24,10 @@ public interface RessourceRepository extends JpaRepository<Ressource, Long> {
 	@Query("Select r FROM Ressource r WHERE TYPE(r) = Article AND r.id = :articleId")
 	Ressource findArticleByArticleId(@Param("articleId") Long articleId);
 
+	// Récupérer le test avec l'id de mon choix
+	@Query("Select r FROM Ressource r WHERE TYPE(r) = Test AND r.id = :testId")
+	Ressource findTestByTestId(@Param("testId") Long testId);
+
 	// Récupérer tous les tests
 	@Query("SELECT r FROM Ressource r WHERE TYPE(r) = Test")
 	List<Ressource> findAllTests();

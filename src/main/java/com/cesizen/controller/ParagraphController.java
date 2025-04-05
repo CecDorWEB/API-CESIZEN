@@ -34,6 +34,7 @@ public class ParagraphController {
 				.collect(Collectors.toList());
 	}
 
+	// Ajouter un paragraphe
 	@PostMapping("/{articleId}/paragraph")
 	public ResponseEntity<ParagraphDTO> createParagraph(@PathVariable long articleId,
 			@RequestBody Paragraph paragraph) {
