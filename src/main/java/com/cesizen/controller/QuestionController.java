@@ -23,9 +23,9 @@ public class QuestionController {
 	@Autowired
 	private QuestionServices questionService;
 
-	@GetMapping("/{ressourceId}/question")
-	public List<QuestionDTO> getQuestionByRessourceId(@PathVariable Long ressourceId) {
-		return questionService.getQuestionByRessourceId(ressourceId).stream().map(questionService::toDTO)
+	@GetMapping("/{testId}/question")
+	public List<QuestionDTO> getQuestionByRessourceId(@PathVariable Long testId) {
+		return questionService.getQuestionByRessourceId(testId).stream().map(questionService::toDTO)
 				.collect(Collectors.toList());
 	}
 

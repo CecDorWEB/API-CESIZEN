@@ -12,6 +12,6 @@ import com.cesizen.model.Question;
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Long> {
 
-	@Query("SELECT q FROM Question q WHERE q.test.id = :ressourceId")
-	List<Question> findQuestionByRessourceId(@Param("ressourceId") Long ressourceId);
+	@Query("SELECT q FROM Question q WHERE q.test.id = :testId")
+	List<Question> findQuestionByTestId(@Param("testId") Long testId);
 }

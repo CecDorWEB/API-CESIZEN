@@ -21,8 +21,8 @@ public class QuestionServices {
 	@Autowired
 	private RessourceRepository ressourceRepository;
 
-	public List<Question> getQuestionByRessourceId(Long ressourceId) {
-		return questionRepository.findQuestionByRessourceId(ressourceId);
+	public List<Question> getQuestionByRessourceId(Long testId) {
+		return questionRepository.findQuestionByTestId(testId);
 	}
 
 	public QuestionDTO toDTO(Question question) {
