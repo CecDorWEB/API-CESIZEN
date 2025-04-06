@@ -44,4 +44,13 @@ public class QuestionServices {
 		return questionRepository.save(question);
 	}
 
+	/* Supprimer une question */
+	public boolean deleteQuestion(Long questionId) {
+		if (questionRepository.existsById(questionId)) {
+			questionRepository.deleteById(questionId);
+			return true;
+		}
+		return false;
+	}
+
 }
