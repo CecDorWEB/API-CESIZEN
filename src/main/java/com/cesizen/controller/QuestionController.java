@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,6 +40,18 @@ public class QuestionController {
 
 		QuestionDTO dto = questionService.toDTO(createdQuestion);
 		return ResponseEntity.ok(dto);
+	}
+
+	// Modifier une question
+	@PutMapping("/question/{questionId}/modify")
+	public ResponseEntity<QuestionDTO> updateQuestion(@RequestBody Question question,
+			@PathVariable("questionId") Long questionId) {
+
+		Question updateQuestion = questionService.updateQuestion(question, questionId);
+
+		// Convertir l'objet en DTO avant de le retourner
+		QuestionDTO updatedDTO = questionService.toDTO(updateQuestion);
+		return ResponseEntity.ok(updatedDTO);
 	}
 
 	// Supprimer une question

@@ -1,6 +1,7 @@
 package com.cesizen.services;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,8 @@ import com.cesizen.model.Ressource;
 import com.cesizen.model.Test;
 import com.cesizen.repository.QuestionRepository;
 import com.cesizen.repository.RessourceRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class QuestionServices {
@@ -42,6 +45,27 @@ public class QuestionServices {
 		Test test = (Test) ressource;
 		question.setTest(test);
 		return questionRepository.save(question);
+	}
+
+	/* Modifier question */
+	public Question updateQuestion(Question question, Long questionId) {
+		Question questDB = questionRepository.findById(questionId)
+				.orElseThrow(() -> new EntityNotFoundException("Question non trouvée avec l'ID : " + questionId));
+		;
+
+		if (Objects.nonNull(question.getQuestion())) {
+			questDB.setQuestion(question.getQuestion());
+		}
+
+		if (Objects.nonNull(question.getRule())) {
+			questDB.setRule(question.getRule());
+		}
+
+		if (Objects.nonNull(question.getNumber_expected_answers())) {
+			questDB.setNumber_expected_answers(question.getNumber_expected_answers());
+		}
+
+		return questionRepository.save(questDB);
 	}
 
 	/* Supprimer une question */
