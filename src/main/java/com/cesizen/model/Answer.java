@@ -1,5 +1,8 @@
 package com.cesizen.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,8 +12,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "response")
-public class Response {
+@Table(name = "answer")
+public class Answer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -24,15 +27,16 @@ public class Response {
 	@Column(nullable = false)
 	private boolean multiplied = false;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.MERGE)
+	@JsonBackReference
 	private Question question;
 
-	public Response() {
+	public Answer() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Response(String title, Integer point, boolean multiplied, Question question) {
+	public Answer(Long id, String title, Integer point, boolean multiplied, Question question) {
 		super();
 		this.title = title;
 		this.point = point;

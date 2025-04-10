@@ -2,10 +2,12 @@ package com.cesizen.services;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cesizen.DTO.AnswerDTO;
 import com.cesizen.DTO.QuestionDTO;
 import com.cesizen.model.Question;
 import com.cesizen.model.Ressource;
@@ -29,8 +31,12 @@ public class QuestionServices {
 	}
 
 	public QuestionDTO toDTO(Question question) {
+		List<AnswerDTO> answersDTO = question.getListOfAnswers().stream().map(
+				answer -> new AnswerDTO(answer.getId(), answer.getTitle(), answer.getPoint(), answer.isMultiplied()))
+				.collect(Collectors.toList());
+
 		return new QuestionDTO(question.getId(), question.getQuestion(), question.getRule(),
-				question.getNumber_expected_answers());
+				question.getNumber_expected_answers(), answersDTO);
 	}
 
 	/* Création Question */
