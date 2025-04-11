@@ -1,6 +1,7 @@
 package com.cesizen.services;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,8 @@ import com.cesizen.model.Answer;
 import com.cesizen.model.Question;
 import com.cesizen.repository.AnswerRepository;
 import com.cesizen.repository.QuestionRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class AnswerServices {
@@ -45,5 +48,16 @@ public class AnswerServices {
 
 		// Sauvegarde
 		return answerRepository.save(answer);
+	}
+
+	/* Supprimer une réponse */
+	@Transactional
+	public boolean deleteAnswer(Long answerId) {
+		Optional<Answer> optionalAnswer = answerRepository.findById(answerId);
+		if (optionalAnswer.isPresent()) {
+			answerRepository.deleteById(answerId);
+			return true;
+		}
+		return false;
 	}
 }
