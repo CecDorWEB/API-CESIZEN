@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.cesizen.DTO.AnswerDTO;
 import com.cesizen.DTO.QuestionDTO;
+import com.cesizen.model.Answer;
 import com.cesizen.model.Question;
 import com.cesizen.model.Ressource;
 import com.cesizen.model.Test;
@@ -69,6 +70,23 @@ public class QuestionServices {
 
 		if (Objects.nonNull(question.getNumber_expected_answers())) {
 			questDB.setNumber_expected_answers(question.getNumber_expected_answers());
+		}
+
+		// Mettre à jour les réponses
+		if (Objects.nonNull(question.getListOfAnswers())) {
+			for (Answer newAnswer : question.getListOfAnswers()) {
+				boolean found = false;
+
+				for (Answer existingAnswer : questDB.getListOfAnswers()) {
+					// Si une réponse existe avec le même ID, mettez-la à jour
+					if (existingAnswer.getId().equals(newAnswer.getId())) {
+						existingAnswer.setTitle(newAnswer.getTitle());
+						existingAnswer.setPoint(newAnswer.getPoint());
+						found = true;
+						break;
+					}
+				}
+			}
 		}
 
 		return questionRepository.save(questDB);
