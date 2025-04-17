@@ -72,7 +72,7 @@ public class RessourceServices {
 			throw new IllegalArgumentException("Unknown ressource type");
 		}
 
-		return new RessourceDTO(ressource.getId(), ressource.getTitle(), ressource.getHeaderImage(),
+		return new RessourceDTO(ressource.getId(), ressource.getTitle(), ressource.getHeaderImage(), ressource.getAltHeaderImage(),
 				ressource.getHeaderIntroduction(), ressource.getPublicationDate(), ressource.getUpdateDate(),
 				ressource.getStatut(), ressourceType, ressource.getUser().getId());
 
@@ -93,6 +93,7 @@ public class RessourceServices {
 		ressource.setId(ressourceDTO.id());
 		ressource.setTitle(ressourceDTO.title());
 		ressource.setHeaderImage(ressourceDTO.headerImage());
+		ressource.setAltHeaderImage(ressourceDTO.altHeaderImage());
 		ressource.setHeaderIntroduction(ressourceDTO.headerIntroduction());
 		ressource.setPublicationDate(Date.valueOf(LocalDate.now()));
 		ressource.setUpdateDate(null);

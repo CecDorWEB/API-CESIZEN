@@ -27,6 +27,9 @@ public abstract class Ressource {
 
 	@Column(length = 255, nullable = true)
 	private String headerImage;
+	
+	@Column(length = 255, nullable = true)
+	private String altHeaderImage;
 
 	@Lob
 	@Column(length = 555, nullable = false)
@@ -74,6 +77,14 @@ public abstract class Ressource {
 
 	public void setHeaderImage(String headerImage) {
 		this.headerImage = headerImage;
+	}
+
+	public String getAltHeaderImage() {
+		return altHeaderImage;
+	}
+
+	public void setAltHeaderImage(String altHeaderImage) {
+		this.altHeaderImage = altHeaderImage;
 	}
 
 	public String getHeaderIntroduction() {
