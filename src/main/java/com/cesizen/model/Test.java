@@ -12,8 +12,8 @@ public class Test extends Ressource {
 	@OneToMany(mappedBy = "test", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Question> listOfQuestions;
 
-	@OneToMany(mappedBy = "test")
-	private List<UserTestResult> UserTestResult;
+	@OneToMany(mappedBy = "test", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Result> resultList;
 
 	public Test() {
 		super();
@@ -28,12 +28,12 @@ public class Test extends Ressource {
 		this.listOfQuestions = listOfQuestions;
 	}
 
-	public List<UserTestResult> getUserTestResult() {
-		return UserTestResult;
+	public List<Result> getResultList() {
+		return resultList;
 	}
 
-	public void setUserTestResult(List<UserTestResult> userTestResult) {
-		UserTestResult = userTestResult;
+	public void setResultList(List<Result> resultList) {
+		resultList = resultList;
 	}
 
 }

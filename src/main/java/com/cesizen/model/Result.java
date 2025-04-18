@@ -1,19 +1,18 @@
 package com.cesizen.model;
 
-import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "test_result_text")
-public class TestResultText {
+@Table
+public class Result {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -30,11 +29,11 @@ public class TestResultText {
 	@Column(nullable = false)
 	private Integer maxScore;
 
-	@OneToMany
-	@JoinColumn(name = "test_result_text_id")
-	private List<UserTestResult> UserTestResult;
+	@ManyToOne
+	@JoinColumn(name = "test_id", nullable = false)
+	private Test test;
 
-	public TestResultText() {
+	public Result() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -79,12 +78,13 @@ public class TestResultText {
 		this.maxScore = maxScore;
 	}
 
-	public List<UserTestResult> getUserTestResult() {
-		return UserTestResult;
+	public Test getTest() {
+		return test;
 	}
 
-	public void setUserTestResult(List<UserTestResult> userTestResult) {
-		UserTestResult = userTestResult;
+	public void setTest(Test test) {
+		this.test = test;
 	}
 
 }
+
