@@ -1,21 +1,31 @@
 package com.cesizen.services;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cesizen.DTO.ParagraphDTO;
 import com.cesizen.DTO.ResultDTO;
+import com.cesizen.model.Article;
 import com.cesizen.model.Paragraph;
+import com.cesizen.model.Ressource;
 import com.cesizen.model.Result;
+import com.cesizen.model.Test;
+import com.cesizen.repository.RessourceRepository;
 import com.cesizen.repository.ResultRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class ResultServices {
 
 	@Autowired
 	private ResultRepository resultRepository;
+	
+	@Autowired
+	private RessourceRepository ressourceRepository;
 	
 	//Pour renvoyer le résultat conformément au DTO
 	public ResultDTO toDTO(Result result) {
@@ -32,6 +42,45 @@ public class ResultServices {
 	 public Result findResultByScore(Long ressourceId, Integer score) {
 	       return resultRepository.findResultTestByScore(ressourceId, score);
 	 }
+	 
+	//Création ou modification d'un résultat
+		public Result createResult(Long ressourceId, Result result) {
+
+			Result resultDB = resultRepository.findById(result.getId()).orElseThrow(() -> new EntityNotFoundException("Resultat non trouvée"));
+
+			if (resultDB == null) {
+				//Dans ce cas on créer le résultat
+				Ressource ressource = ressourceRepository.findTestByTestId(ressourceId);
+				
+				if (ressource == null) {
+					throw new RuntimeException("The provided resource is not an Article");
+				}
+				
+				Test test = (Test) ressource;
+				result.setTest(test);
+				return resultRepository.save(result);
+				
+			} else {
+				if (Objects.nonNull(result.getMinScore())) {
+					resultDB.setMinScore(result.getMinScore());
+				}
+				
+				if (Objects.nonNull(result.getMaxScore())) {
+					resultDB.setMaxScore(result.getMaxScore());
+				}
+				
+				if (Objects.nonNull(result.getTitle())) {
+					resultDB.setTitle(result.getTitle());
+				}
+				
+				if (Objects.nonNull(result.getContent())) {
+					resultDB.setContent(result.getContent());
+				}
+				
+				return resultRepository.save(resultDB);
+			}
+
+		}
 	 
 		/* Supprimer paragraphe */
 		public boolean deleteResult(Long resultId) {
