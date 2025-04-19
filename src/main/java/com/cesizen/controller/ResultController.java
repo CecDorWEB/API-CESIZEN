@@ -1,8 +1,13 @@
 package com.cesizen.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,17 +25,36 @@ public class ResultController {
 	@Autowired
 	private ResultServices resultService;
 	
-	//Récupérer les textes de résultat en fonction du score de l'utilisateur
-	@GetMapping("/search")
-	public ResponseEntity<ResultDTO> getResultByQuery(
-	        @RequestParam Long ressourceId,
-	        @RequestParam Integer score) {
-	    ResultDTO result = resultService.findResultByScore(ressourceId, score);
-	    if (result != null) {
-	        return ResponseEntity.ok(result);
-	    } else {
-	        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-	    }
+	//Récupérer tous les textes de résultat d'une ressource
+	@GetMapping("/all/{ressourceId}")
+	public List<ResultDTO> getResultByRessourceId(@PathVariable Long ressourceId) {
+	    return resultService.getAllResultByRessourceId(ressourceId).stream().map(resultService::toDTO)
+				.collect(Collectors.toList());
 	}
 	
+	//Récupérer les textes de résultat en fonction du score de l'utilisateur
+		@GetMapping("/search")
+		public ResponseEntity<ResultDTO> getResultByQuery(
+		        @RequestParam Long ressourceId,
+		        @RequestParam Integer score) {
+		    Result result = resultService.findResultByScore(ressourceId, score);
+		    
+		    if (result == null) {
+				return ResponseEntity.notFound().build();
+			}
+		    
+		    ResultDTO resultDTO = resultService.toDTO(result);
+		    return ResponseEntity.ok(resultDTO);
+		}
+		
+	// Supprimer un résultat
+		@DeleteMapping("/delete/{resultId}")
+		public ResponseEntity<String> deleteResult(@PathVariable Long resultId) {
+			boolean deleted = resultService.deleteResult(resultId);
+			if (deleted) {
+				return ResponseEntity.ok("Resultat supprimé avec succès !");
+			} else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Résultat introuvable !");
+			}
+		}
 }
