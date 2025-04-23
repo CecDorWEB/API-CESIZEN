@@ -53,9 +53,11 @@ public class ResultController {
 		}
 		
 		// Ajouter ou modifier un résultat
-		@PostMapping("/{ressourceId}/result")
+		@PostMapping("/{ressourceId}/create")
 		public ResponseEntity<ResultDTO> createResult(@PathVariable long ressourceId,
 				@RequestBody Result result) {
+			
+			System.out.println("------------------------------Reçu dans le backend : " + result);
 			
 			Result createdResult = resultService.createResult(ressourceId, result);
 

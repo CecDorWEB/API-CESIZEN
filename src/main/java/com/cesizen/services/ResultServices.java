@@ -46,9 +46,7 @@ public class ResultServices {
 	//Création ou modification d'un résultat
 		public Result createResult(Long ressourceId, Result result) {
 
-			Result resultDB = resultRepository.findById(result.getId()).orElseThrow(() -> new EntityNotFoundException("Resultat non trouvée"));
-
-			if (resultDB == null) {
+			if (result.getId() == null) {
 				//Dans ce cas on créer le résultat
 				Ressource ressource = ressourceRepository.findTestByTestId(ressourceId);
 				
@@ -61,6 +59,10 @@ public class ResultServices {
 				return resultRepository.save(result);
 				
 			} else {
+				//Modification
+				Result resultDB = resultRepository.findById(result.getId())
+			            .orElseThrow(() -> new EntityNotFoundException("Résultat non trouvé"));
+				
 				if (Objects.nonNull(result.getMinScore())) {
 					resultDB.setMinScore(result.getMinScore());
 				}

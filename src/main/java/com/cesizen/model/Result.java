@@ -86,5 +86,12 @@ public class Result {
 		this.test = test;
 	}
 
+	@Override
+	public String toString() {
+		return "Result [id=" + id + ", title=" + title + ", content=" + content + ", minScore=" + minScore
+				+ ", maxScore=" + maxScore + ", test=" + test + "]";
+	}
+	
+
 }
 
