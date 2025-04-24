@@ -1,5 +1,7 @@
 package com.cesizen.model;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
@@ -19,14 +21,17 @@ public class UserTestResult {
 	private Long id;
 
 	@Column(nullable = false)
-	private LocalDateTime date_user_test;
+	private Date realizeDate = Date.valueOf(LocalDate.now());
 
 	@Column(nullable = false)
 	private Integer score;
+	
+	@Column(nullable = false)
+	private String textResult;
 
 	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false)
-	private User user;
+	private Member user;
 
 	@ManyToOne
 	@JoinColumn(name = "test_id", nullable = false)
@@ -37,10 +42,11 @@ public class UserTestResult {
 		// TODO Auto-generated constructor stub
 	}
 
-	public UserTestResult(LocalDateTime date_user_test, Integer score, User user, Test test) {
+	public UserTestResult(Date realizeDate, Integer score, String textResult, Member user, Test test) {
 		super();
-		this.date_user_test = date_user_test;
+		this.realizeDate = realizeDate;
 		this.score = score;
+		this.textResult = textResult;
 		this.user = user;
 		this.test = test;
 	}
@@ -53,12 +59,12 @@ public class UserTestResult {
 		this.id = id;
 	}
 
-	public LocalDateTime getDate_user_test() {
-		return date_user_test;
+	public Date getRealizeDate() {
+		return realizeDate;
 	}
 
-	public void setDate_user_test(LocalDateTime date_user_test) {
-		this.date_user_test = date_user_test;
+	public void setRealizeDate(Date realizeDate) {
+		this.realizeDate = realizeDate;
 	}
 
 	public Integer getScore() {
@@ -69,11 +75,19 @@ public class UserTestResult {
 		this.score = score;
 	}
 
-	public User getUser() {
+	public String getTextResult() {
+		return textResult;
+	}
+
+	public void setTextResult(String textResult) {
+		this.textResult = textResult;
+	}
+
+	public Member getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(Member user) {
 		this.user = user;
 	}
 
