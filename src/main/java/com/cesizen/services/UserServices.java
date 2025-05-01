@@ -3,6 +3,7 @@ package com.cesizen.services;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,6 +87,7 @@ public class UserServices {
 		}
 	}
 
+	//Modifier le statut du compte (autorisé ou non)
 	public boolean autorizedUser(Integer userId) {
 		Optional<User> user = userRepository.findById(userId);
 
@@ -93,6 +95,20 @@ public class UserServices {
 			User myUser = user.get();
 			myUser.setStatut(!myUser.getStatut());
 			userRepository.save(myUser);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	//Modifier le mot de passe
+	public boolean modifyUserPassword(Integer userId,String newPassword) {
+		Optional<User> userDB = userRepository.findById(userId);
+		
+		if (userDB.isPresent()) {
+			User user = userDB.get();
+			user.setPassword(newPassword);	
+			userRepository.save(user);
 			return true;
 		} else {
 			return false;

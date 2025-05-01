@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cesizen.DTO.PasswordUpdateDTO;
 import com.cesizen.DTO.UserDTO;
 import com.cesizen.model.User;
 import com.cesizen.repository.UserRepository;
@@ -116,5 +117,27 @@ public class UserController {
 					.body("Erreur lors de la modification du statut.");
 		}
 	}
-
-};
+	
+	//Modifier le mot de passe
+	@PostMapping("/modify")
+	public ResponseEntity<String> modifyUserPassword(@RequestBody PasswordUpdateDTO request){
+		Integer userId = request.id();
+	    String newPassword = request.password();
+		
+		if (userId == null || newPassword == null || newPassword.isBlank()) {
+			return ResponseEntity.badRequest().body("ID ou mot de passe manquant");
+		}
+		
+		try {
+			boolean passwordModify=userServices.modifyUserPassword(userId, newPassword);
+			if (passwordModify) {
+				return ResponseEntity.ok("Mot de passe modifié avec succès.");
+			} else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Utilisateur non trouvé.");
+			} 
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Erreur lors de la modification du statut.");
+			}
+		}
+}
