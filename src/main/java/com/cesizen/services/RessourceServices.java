@@ -125,6 +125,7 @@ public class RessourceServices {
 
 	}
 
+	//Modifier la ressource
 	public Ressource updateRessource(Ressource ressource, String type, Long ressourceId) {
 		Ressource resDB = ressourceRepository.findById(ressourceId).get();
 
@@ -140,6 +141,10 @@ public class RessourceServices {
 
 		if (Objects.nonNull(ressource.getHeaderImage()) && !"".equalsIgnoreCase(ressource.getHeaderImage())) {
 			resDB.setHeaderImage(ressource.getHeaderImage());
+		}
+		
+		if (Objects.nonNull(ressource.getAltHeaderImage()) && !"".equalsIgnoreCase(ressource.getAltHeaderImage())) {
+			resDB.setAltHeaderImage(ressource.getAltHeaderImage());
 		}
 
 		return ressourceRepository.save(resDB);
